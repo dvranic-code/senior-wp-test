@@ -127,14 +127,22 @@ class Simple_Voting_Public {
 			$voting_content .= '<div id="voting-container" data-post-id="' . $post_id . '">';
 			if ( $this->is_user_voted( $voting_result['votes'], $user_id ) ) {
 				$voting_content .= '<p>Thank you for your feedback.';
-				$voting_content .= '<span class="voting-result">' . $voting_result['yes'] . '</span>';
-				$voting_content .= '<span class="voting-result">' . $voting_result['no'] . '</span>';
+				if ( in_array( $user_id, $voting_result['votes']['yes'], true ) ) {
+					$voting_content .= '<span class="voting-result voting-result--yes active">' . $voting_result['yes'] . '</span>';
+				} else {
+					$voting_content .= '<span class="voting-result voting-result--yes">' . $voting_result['yes'] . '</span>';
+				}
+				if ( in_array( $user_id, $voting_result['votes']['no'], true ) ) {
+					$voting_content .= '<span class="voting-result voting-result--no active">' . $voting_result['no'] . '</span>';
+				} else {
+					$voting_content .= '<span class="voting-result voting-result--no">' . $voting_result['no'] . '</span>';
+				}
 				$voting_content .= '</p>';
 			} else {
 				$voting_content .= '<p>Hover / Press States</p>';
 				$voting_content .= '<p>Was This Article Helpful?';
-				$voting_content .= '<button class="vote-button" data-vote="yes" data-result="' . $voting_result['yes'] . '">Yes</button>';
-				$voting_content .= '<button class="vote-button" data-vote="no" data-result="' . $voting_result['no'] . '">No</button>';
+				$voting_content .= '<button class="vote-button vote-button--yes" data-vote="yes" data-result="' . $voting_result['yes'] . '">Yes</button>';
+				$voting_content .= '<button class="vote-button vote-button--no" data-vote="no" data-result="' . $voting_result['no'] . '">No</button>';
 				$voting_content .= '</p>';
 			}
 			$voting_content .= '</div>';
@@ -194,8 +202,18 @@ class Simple_Voting_Public {
 		$voting_content = '';
 
 		$voting_content .= '<p>Thank you for your feedback.';
-		$voting_content .= '<span class="voting-result">' . $voting_result['yes'] . '</span>';
-		$voting_content .= '<span class="voting-result">' . $voting_result['no'] . '</span>';
+		if ( 'yes' === $vote_type ) {
+			$voting_content .= '<span class="voting-result voting-result--yes active">';
+		} else {
+			$voting_content .= '<span class="voting-result voting-result--yes">';
+		}
+		$voting_content .= $voting_result['yes'] . '</span>';
+		if ( 'no' === $vote_type ) {
+			$voting_content .= '<span class="voting-result voting-result--no active">';
+		} else {
+			$voting_content .= '<span class="voting-result voting-result--no">';
+		}
+		$voting_content .= $voting_result['no'] . '</span>';
 		$voting_content .= '</p>';
 
 		// return votes.

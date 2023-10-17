@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Simple Voting
- * Description: Simple Voting Plugin
+ * Description: Simple voting plugin, no settup required. Just install and activate. At the end of each post you will see voting buttons.
  * Version: 1.0.0
  * Author: Dejan Rudic Vranic
  * Author URI: https://dejan-wp.dev

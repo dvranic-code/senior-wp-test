@@ -95,4 +95,50 @@ class Simple_Voting_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/simple-voting-admin.js', array( 'jquery' ), $this->version, false );
 	}
+
+	/**
+	 * Add voting meta box to post edit screen.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_voting_meta_box() {
+		add_meta_box(
+			'simple-voting',
+			__( 'Simple Voting', 'simple-voting' ),
+			array( $this, 'render_voting_meta_box' ),
+			'post',
+			'side',
+			'high'
+		);
+	}
+
+	/**
+	 * Render voting meta box.
+	 *
+	 * @since    1.0.0
+	 * @param    object $post Post object.
+	 */
+	public function render_voting_meta_box( $post ) {
+		$votes = get_post_meta( $post->ID, 'simple-votes', true );
+
+		$yes_percentage = 0;
+		$no_percentage  = 0;
+
+		// check if votes exist.
+		if ( ! empty( $votes ) ) {
+			$yes_percentage = round( ( count( $votes['yes'] ) / ( count( $votes['yes'] ) + count( $votes['no'] ) ) ) * 100 );
+			$no_percentage  = round( ( count( $votes['no'] ) / ( count( $votes['yes'] ) + count( $votes['no'] ) ) ) * 100 );
+		}
+
+		?>
+		<div class="simple-voting">
+			<div class="simple-voting__option">
+				<p>Article is helpful: <strong><?php echo esc_attr( $yes_percentage ); ?>%</strong></p>
+			</div>
+			<div class="simple-voting__option">
+				<p>Article is NOT helpful: <strong><?php echo esc_attr( $no_percentage ); ?>%</strong></p>
+			</div>
+		</div>
+		<?php
+	}
 }

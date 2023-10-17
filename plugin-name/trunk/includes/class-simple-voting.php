@@ -152,6 +152,9 @@ class Simple_Voting {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		// Add custom widget to post edit screen
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'add_voting_meta_box' );
 	}
 
 	/**
